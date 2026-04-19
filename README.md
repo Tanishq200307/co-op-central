@@ -1,6 +1,6 @@
 # CoopCentral
 
-CoopCentral is a MERN platform for co-op hiring across students, employers, and universities. This version upgrades the original demo into a richer job marketplace with seeded data, a dark-first UI, company profiles, saved jobs, notifications, and dashboards that feel closer to a real recruiting product.
+CoopCentral is a MERN platform for co-op hiring across students, employers, and universities. This rebuild turns the original demo into a populated recruiting portal with seeded data, modern dashboards, and a UI that feels much closer to a real job marketplace.
 
 ## What is included
 
@@ -26,7 +26,7 @@ CoopCentral is a MERN platform for co-op hiring across students, employers, and 
 
 ## Stack
 
-- Frontend: React 18, Vite, React Router, Tailwind CSS v4, React Query, Recharts, Sonner
+- Frontend: React 18, Vite, React Router, Tailwind CSS v3, React Query, Recharts, Sonner
 - Backend: Node.js, Express, Mongoose, JWT auth, Multer
 - Data and demo tooling: MongoDB Memory Server, Faker, Zod
 
@@ -143,6 +143,6 @@ This clears and recreates the seeded demo dataset, so repeated runs do not dupli
 
 ## Notes
 
-- The current workspace did not include a `.git` directory, so the requested step-by-step commits could not be created from inside this environment.
-- The frontend production build completes successfully.
-- The seed script completes successfully when allowed to start the in-memory MongoDB instance.
+- The frontend production build completes successfully and stays under the requested gzip threshold.
+- The backend auto-seeds the demo dataset when the connected database is below the expected baseline.
+- The fastest way to verify the main experience is to log in as the BCIT demo student, apply to a Shopify job, then log in as the Shopify employer and confirm the new application appears.
