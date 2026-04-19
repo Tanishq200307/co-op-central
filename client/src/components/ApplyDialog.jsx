@@ -12,7 +12,13 @@ import {
 } from './ui/Dialog';
 import { Textarea } from './ui/Field';
 
-export default function ApplyDialog({ job, open, onClose, defaultResumeName }) {
+export default function ApplyDialog({
+  job,
+  open,
+  onClose,
+  onApplied,
+  defaultResumeName,
+}) {
   const queryClient = useQueryClient();
   const [resume, setResume] = useState(null);
   const [coverLetter, setCoverLetter] = useState('');
@@ -33,6 +39,7 @@ export default function ApplyDialog({ job, open, onClose, defaultResumeName }) {
       queryClient.invalidateQueries({ queryKey: ['job', job._id] });
       queryClient.invalidateQueries({ queryKey: ['applications'] });
       queryClient.invalidateQueries({ queryKey: ['jobs'] });
+      onApplied?.();
       onClose();
     },
     onError: (error) => {

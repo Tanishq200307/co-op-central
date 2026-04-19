@@ -19,6 +19,7 @@ export default function JobDetailPage() {
   const { jobId } = useParams();
   const { user, profileMeta } = useAuth();
   const [applyOpen, setApplyOpen] = useState(false);
+  const [didApply, setDidApply] = useState(false);
   const [recentlyViewed, setRecentlyViewed] = useLocalStorageState(
     'coopcentral-recently-viewed',
     []
@@ -79,6 +80,8 @@ export default function JobDetailPage() {
 
   if (!job) return null;
 
+  const currentApplicantCount = (job.applicantCount || 0) + (didApply ? 1 : 0);
+
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
       <div className="space-y-6">
@@ -101,7 +104,11 @@ export default function JobDetailPage() {
                 </div>
               </div>
               <div className="flex gap-3">
-                <Button onClick={() => setApplyOpen(true)}>Apply</Button>
+                {didApply ? (
+                  <Button variant="secondary">Applied</Button>
+                ) : (
+                  <Button onClick={() => setApplyOpen(true)}>Apply</Button>
+                )}
                 <Button variant="secondary">
                   <Bookmark className="h-4 w-4" />
                   Save
@@ -220,9 +227,18 @@ export default function JobDetailPage() {
                   Apply with your existing resume or upload a fresh version for
                   this role.
                 </p>
-                <Button className="w-full" onClick={() => setApplyOpen(true)}>
-                  Apply with resume
-                </Button>
+                {didApply ? (
+                  <Button className="w-full" variant="secondary">
+                    Applied
+                  </Button>
+                ) : (
+                  <Button
+                    className="w-full"
+                    onClick={() => setApplyOpen(true)}
+                  >
+                    Apply with resume
+                  </Button>
+                )}
               </>
             ) : user ? (
               <p>
@@ -251,7 +267,7 @@ export default function JobDetailPage() {
           <CardBody className="space-y-3 text-sm text-text-secondary">
             <div className="flex items-center justify-between">
               <span>Applicants</span>
-              <span>{job.applicantCount}</span>
+              <span>{currentApplicantCount}</span>
             </div>
             <div className="flex items-center justify-between">
               <span>Views</span>
@@ -287,6 +303,7 @@ export default function JobDetailPage() {
         }
         job={job}
         onClose={() => setApplyOpen(false)}
+        onApplied={() => setDidApply(true)}
         open={applyOpen}
       />
     </div>
