@@ -6,6 +6,10 @@ const path = require('path');
 const { connectDB } = require('./config/db');
 const logger = require('./utils/logger');
 const { seedDatabase } = require('./scripts/seed');
+const Company = require('./models/Company');
+const Job = require('./models/Job');
+const University = require('./models/University');
+const User = require('./models/User');
 
 const authRoutes = require('./routes/authRoutes');
 const companyRoutes = require('./routes/companyRoutes');
@@ -50,13 +54,31 @@ app.use('/api/stats', statsRoutes);
 app.use('/api/students', studentRoutes);
 
 connectDB()
-  .then(async ({ usingMemoryServer }) => {
-    if (usingMemoryServer) {
+  .then(async () => {
+    logger.info('[seed] checking if populated...');
+    const [companyCount, jobCount, universityCount, studentCount] =
+      await Promise.all([
+        Company.countDocuments(),
+        Job.countDocuments(),
+        University.countDocuments(),
+        User.countDocuments({ role: 'student' }),
+      ]);
+
+    if (
+      companyCount < 40 ||
+      jobCount < 150 ||
+      universityCount < 8 ||
+      studentCount < 60
+    ) {
       await seedDatabase();
+    } else {
+      logger.info(
+        `[seed] existing data looks good. universities=${universityCount} companies=${companyCount} jobs=${jobCount} students=${studentCount}`
+      );
     }
 
     app.listen(PORT, () => {
-      logger.info(`Server running on http://localhost:${PORT}`);
+      logger.info(`[server] listening on http://localhost:${PORT}`);
     });
   })
   .catch((error) => {

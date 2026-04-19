@@ -90,6 +90,14 @@ const studentProfileSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    avatarInitials: {
+      type: String,
+      default: '',
+    },
+    avatarColorHex: {
+      type: String,
+      default: '',
+    },
     location: {
       type: String,
       default: '',
@@ -118,6 +126,14 @@ const studentProfileSchema = new mongoose.Schema(
       default: '',
     },
     defaultResumeOriginalName: {
+      type: String,
+      default: '',
+    },
+    resumeUrl: {
+      type: String,
+      default: '',
+    },
+    resumeOriginalName: {
       type: String,
       default: '',
     },

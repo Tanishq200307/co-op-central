@@ -249,6 +249,7 @@ router.get('/search', async (req, res) => {
     ]);
 
     res.json({
+      data: jobs,
       jobs,
       total: countResults[0]?.total || 0,
       page,
@@ -317,7 +318,13 @@ router.get(
         .slice(0, 6);
 
       const decorated = await decorateJobsForStudent(scored, req.user._id);
-      res.json({ jobs: decorated });
+      res.json({
+        data: decorated,
+        jobs: decorated,
+        page: 1,
+        pageSize: decorated.length,
+        total: decorated.length,
+      });
     } catch (error) {
       res
         .status(500)
@@ -346,7 +353,13 @@ router.get('/saved', protect, requireRole('student'), async (req, res) => {
         savedAt: entry.savedAt,
       }));
 
-    res.json({ jobs });
+    res.json({
+      data: jobs,
+      jobs,
+      page: 1,
+      pageSize: jobs.length,
+      total: jobs.length,
+    });
   } catch (error) {
     res
       .status(500)
@@ -415,7 +428,13 @@ router.get('/similar/:id', async (req, res) => {
       .limit(5)
       .lean();
 
-    res.json({ jobs: similarJobs });
+    res.json({
+      data: similarJobs,
+      jobs: similarJobs,
+      page: 1,
+      pageSize: similarJobs.length,
+      total: similarJobs.length,
+    });
   } catch (error) {
     res
       .status(500)
@@ -469,7 +488,13 @@ router.get(
         applicants: applicationsByJob.get(job._id.toString()) || [],
       }));
 
-      res.json({ jobs: jobsWithApplicants });
+      res.json({
+        data: jobsWithApplicants,
+        jobs: jobsWithApplicants,
+        page: 1,
+        pageSize: jobsWithApplicants.length,
+        total: jobsWithApplicants.length,
+      });
     } catch (error) {
       res
         .status(500)
@@ -487,7 +512,13 @@ router.get('/my-jobs', protect, requireRole('employer'), async (req, res) => {
       .populate('selectedUniversities', 'name domain')
       .sort({ postedAt: -1 });
 
-    res.json({ jobs });
+    res.json({
+      data: jobs,
+      jobs,
+      page: 1,
+      pageSize: jobs.length,
+      total: jobs.length,
+    });
   } catch (error) {
     res.status(500).json({ message: 'Could not fetch your jobs.' });
   }
@@ -505,8 +536,12 @@ router.get('/eligible', protect, requireRole('student'), async (req, res) => {
     const jobsWithStatus = await decorateJobsForStudent(jobs, req.user._id);
 
     res.json({
+      data: jobsWithStatus,
       matchedUniversity,
       jobs: jobsWithStatus,
+      page: 1,
+      pageSize: jobsWithStatus.length,
+      total: jobsWithStatus.length,
     });
   } catch (error) {
     res
@@ -522,7 +557,13 @@ router.get('/public', async (_req, res) => {
       .sort({ postedAt: -1 })
       .limit(25);
 
-    res.json({ jobs });
+    res.json({
+      data: jobs,
+      jobs,
+      page: 1,
+      pageSize: jobs.length,
+      total: jobs.length,
+    });
   } catch (error) {
     res.status(500).json({ message: 'Could not fetch public jobs.' });
   }
@@ -601,6 +642,7 @@ router.post('/', protect, requireRole('employer'), async (req, res) => {
 
     res.status(201).json({
       message: 'Job created successfully.',
+      data: populatedJob,
       job: populatedJob,
     });
   } catch (error) {
@@ -640,7 +682,7 @@ router.get('/:id', async (req, res) => {
       .limit(4)
       .lean();
 
-    res.json({ job, similarJobs });
+    res.json({ data: job, job, similarJobs });
   } catch (error) {
     res.status(500).json({ message: error.message || 'Could not load job.' });
   }
@@ -723,6 +765,7 @@ router.post(
 
       res.status(201).json({
         message: 'Applied successfully.',
+        data: application,
         application,
       });
     } catch (error) {

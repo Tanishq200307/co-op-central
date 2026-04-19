@@ -4,24 +4,40 @@ const logger = require('../utils/logger');
 
 let memoryServer;
 
+async function connectWithUri(uri, mode) {
+  const startedAt = Date.now();
+  await mongoose.connect(uri, {
+    serverSelectionTimeoutMS: 5000,
+  });
+  logger.info(`[db] mode = ${mode}`);
+  logger.info(`[db] connected in ${Date.now() - startedAt}ms`);
+  return mode;
+}
+
 async function connectDB() {
-  try {
-    let mongoUri = process.env.MONGO_URI;
-    let usingMemoryServer = false;
+  logger.info('[db] connecting...');
+  const preferredUri = process.env.MONGO_URI?.trim();
 
-    if (!mongoUri) {
-      memoryServer = await MongoMemoryServer.create();
-      mongoUri = memoryServer.getUri();
-      usingMemoryServer = true;
-      logger.info('Using in-memory MongoDB for demo mode.');
+  if (preferredUri) {
+    try {
+      const mode = await connectWithUri(preferredUri, 'external');
+      return { usingMemoryServer: false, mode };
+    } catch (error) {
+      logger.warn('[db] external connection failed, falling back to memory', {
+        error: error.message,
+      });
+      await mongoose.disconnect().catch(() => {});
     }
+  }
 
-    await mongoose.connect(mongoUri);
-    logger.info('MongoDB connected successfully.');
-    return { usingMemoryServer };
+  try {
+    memoryServer = await MongoMemoryServer.create();
+    const mongoUri = memoryServer.getUri();
+    const mode = await connectWithUri(mongoUri, 'memory-server');
+    return { usingMemoryServer: true, mode };
   } catch (error) {
-    logger.error('MongoDB connection failed.', { error: error.message });
-    process.exit(1);
+    logger.error('[db] memory-server failed to boot', { error: error.message });
+    throw error;
   }
 }
 

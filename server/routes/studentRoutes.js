@@ -11,7 +11,7 @@ router.get('/me', protect, async (req, res) => {
     const profile = await StudentProfile.findOne({
       user: req.user._id,
     }).populate('user', 'name email');
-    res.json({ profile });
+    res.json({ data: profile, profile });
   } catch (error) {
     res
       .status(500)
@@ -28,7 +28,7 @@ router.put('/me', protect, async (req, res) => {
       { new: true, upsert: true }
     ).populate('user', 'name email');
 
-    res.json({ profile });
+    res.json({ data: profile, profile });
   } catch (error) {
     res
       .status(500)
@@ -57,7 +57,7 @@ router.get('/:id', protect, async (req, res) => {
     }).populate('user', 'name email');
     const jobs = await Job.find({ employer: req.user._id }).select('_id title');
 
-    res.json({ profile, jobs });
+    res.json({ data: profile, profile, jobs });
   } catch (error) {
     res
       .status(500)

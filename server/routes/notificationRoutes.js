@@ -13,7 +13,14 @@ router.get('/', protect, async (req, res) => {
       user: req.user._id,
       read: false,
     });
-    res.json({ notifications, unreadCount });
+    res.json({
+      data: notifications,
+      notifications,
+      unreadCount,
+      page: 1,
+      pageSize: notifications.length,
+      total: notifications.length,
+    });
   } catch (error) {
     res
       .status(500)
@@ -29,7 +36,7 @@ router.patch('/:id/read', protect, async (req, res) => {
       { new: true }
     );
 
-    res.json({ notification });
+    res.json({ data: notification, notification });
   } catch (error) {
     res
       .status(500)
@@ -43,7 +50,15 @@ router.post('/read-all', protect, async (req, res) => {
       { user: req.user._id, read: false },
       { $set: { read: true } }
     );
-    res.json({ message: 'All notifications marked as read.' });
+    const notifications = await Notification.find({ user: req.user._id })
+      .sort({ createdAt: -1 })
+      .limit(50);
+    res.json({
+      message: 'All notifications marked as read.',
+      data: notifications,
+      notifications,
+      unreadCount: 0,
+    });
   } catch (error) {
     res
       .status(500)

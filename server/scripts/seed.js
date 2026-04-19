@@ -203,6 +203,43 @@ const UNIVERSITY_PROGRAMS = [
   'Interaction Design',
   'Environmental Studies',
 ];
+const AVATAR_COLOR_PALETTE = [
+  '#2563EB',
+  '#0F766E',
+  '#7C3AED',
+  '#DC2626',
+  '#CA8A04',
+  '#0891B2',
+  '#4F46E5',
+  '#059669',
+  '#E11D48',
+  '#9333EA',
+  '#1D4ED8',
+  '#0EA5E9',
+];
+
+function hashValue(value = '') {
+  return value
+    .split('')
+    .reduce(
+      (total, character, index) =>
+        total + character.charCodeAt(0) * (index + 1),
+      0
+    );
+}
+
+function initialsFromLabel(value = '') {
+  return value
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0].toUpperCase())
+    .join('');
+}
+
+function colorFromSeed(seed) {
+  return AVATAR_COLOR_PALETTE[hashValue(seed) % AVATAR_COLOR_PALETTE.length];
+}
 
 function pickMany(items, min, max) {
   return faker.helpers.arrayElements(items, faker.number.int({ min, max }));
@@ -226,18 +263,68 @@ function buildJobDescription(
   companyName,
   workMode,
   skillsRequired,
-  skillsPreferred
+  skillsPreferred,
+  durationMonths,
+  workTerm,
+  startDate,
+  companyAbout
 ) {
-  const requiredText = skillsRequired.slice(0, 4).join(', ');
-  const preferredText = skillsPreferred.slice(0, 3).join(', ');
+  const roleIntros = [
+    `We are hiring a ${title} to join ${companyName} for a ${durationMonths}-month term in ${workTerm}. You will work on meaningful priorities with a team that expects students to contribute, learn quickly, and ship production-quality work.`,
+    `${companyName} is looking for a ${title} who wants ownership, mentorship, and a clear path to impact. This role starts ${startDate.toLocaleDateString('en-CA', { month: 'long', day: 'numeric', year: 'numeric' })} and is designed for someone excited by hands-on delivery in a ${workMode} team.`,
+    `Join ${companyName} as a ${title} and help shape real product and operational outcomes. You will be embedded with experienced teammates, trusted with scoped projects, and supported by strong coaching throughout the term.`,
+    `Our team is hiring a ${title} for ${workTerm}. You will contribute to active roadmap work, collaborate across functions, and build practical experience in a setting that values thoughtful execution.`,
+  ];
+
+  const responsibilityPool = [
+    'Build, test, and iterate on features or workflows that support customers and internal teams',
+    'Translate product or project requirements into clear deliverables with support from your mentor',
+    'Collaborate with engineers, designers, analysts, or operators to move work from idea to launch',
+    'Contribute to code reviews, documentation, or process improvements that help the team scale',
+    'Use data, feedback, and observation to identify opportunities for product or operational improvements',
+    'Communicate progress clearly in standups, planning sessions, and stakeholder check-ins',
+    'Take ownership of a scoped project and deliver it with strong attention to detail',
+    'Help improve tooling, dashboards, or internal systems that make the team more effective',
+  ];
+
+  const qualificationPool = [
+    `Hands-on experience with ${skillsRequired.slice(0, 3).join(', ')}`,
+    'A strong foundation in problem solving, communication, and collaborative teamwork',
+    'Coursework, projects, or previous work that demonstrates follow-through and product sense',
+    'Comfort working through ambiguity and asking clarifying questions early',
+    'A habit of testing your work, documenting decisions, and learning from feedback',
+    'Interest in building practical solutions for real users and business needs',
+  ];
+
+  const preferredPool = [
+    `Exposure to ${skillsPreferred.slice(0, 3).join(', ')}`,
+    'Experience shipping a class project, internship deliverable, or side project from start to finish',
+    'Comfort using modern collaboration tools such as Git, Jira, or cross-functional documentation',
+    'Curiosity about the domain, customer workflows, and how strong teams make decisions',
+  ];
 
   return [
-    `About the role\n${companyName} is hiring a ${title} to help ship meaningful student-impact work during the next work term. You will join a team that values momentum, clear communication, and practical problem solving across product, engineering, and operations.`,
-    `What you will do\nYou will partner with your team to scope tasks, deliver polished work, and learn how strong execution looks in a modern ${workMode} environment. You will work on user-facing improvements, operational tooling, and internal systems that support customers and teammates.`,
-    `What you bring\nYou have foundational experience with ${requiredText}. You are comfortable asking sharp questions, turning feedback into action, and owning your work from kickoff to handoff.`,
-    `Nice to haves\nExperience with ${preferredText} will help you ramp quickly. If you have built class projects, personal projects, or internship work that demonstrates craft and follow-through, that will stand out.`,
-    `About the team\nThe team balances mentorship with autonomy, and students are treated as real contributors from week one. You will have a clear onboarding plan, regular check-ins, and a project scope that matters to the business.`,
-  ].join('\n\n');
+    '## About the role',
+    faker.helpers.arrayElement(roleIntros),
+    '',
+    '## What you will do',
+    ...faker.helpers
+      .arrayElements(responsibilityPool, 6)
+      .map((item) => `- ${item}`),
+    '',
+    '## What you bring',
+    ...faker.helpers
+      .arrayElements(qualificationPool, 5)
+      .map((item) => `- ${item}`),
+    '',
+    '## Nice to have',
+    ...faker.helpers
+      .arrayElements(preferredPool, 3)
+      .map((item) => `- ${item}`),
+    '',
+    `## About ${companyName}`,
+    companyAbout,
+  ].join('\n');
 }
 
 function inferSalary(role) {
@@ -363,6 +450,8 @@ async function createCompaniesAndEmployers(passwordHash) {
       name: companyName,
       slug,
       logoUrl: ensureCompanyLogo(slug, companyName),
+      logoInitials: initialsFromLabel(companyName),
+      logoColorHex: colorFromSeed(slug),
       website: `https://www.${slug.replace(/-+/g, '')}.com`,
       industry: weightedChoice(index, INDUSTRIES),
       headcountRange: weightedChoice(index, HEADCOUNT_OPTIONS),
@@ -370,7 +459,11 @@ async function createCompaniesAndEmployers(passwordHash) {
         index,
         LOCATIONS.filter((location) => location !== 'Remote (Canada)')
       ),
-      about: `${companyName} builds products and services with a strong focus on execution, mentorship, and meaningful co-op work. Teams on CoopCentral hire students into real business priorities across product, engineering, operations, and growth.`,
+      about: [
+        `${companyName} builds products and services with a strong focus on execution, mentorship, and practical outcomes. Teams work closely across disciplines and students are treated as real contributors, not observers.`,
+        `The company invests in onboarding, clear scope, and fast feedback loops so work terms feel substantial from the first week. Co-op students support roadmap delivery, internal tooling, research, and operational improvements depending on the team.`,
+        `${companyName} uses CoopCentral to connect with students who want meaningful ownership, strong teammates, and a modern work environment that values communication, initiative, and craft.`,
+      ].join('\n\n'),
       foundedYear: 2004 + (index % 18),
       specialties: pickMany(SKILL_TAXONOMY, 3, 5),
       cultureTags: pickMany(CULTURE_TAGS, 3, 4),
@@ -496,6 +589,8 @@ async function createStudentUsers(passwordHash, universities) {
         portfolio: `https://${avatarSlug}.portfolio.dev`,
       },
       avatarUrl: ensureAvatar(avatarSlug, student.name),
+      avatarInitials: initialsFromLabel(student.name),
+      avatarColorHex: colorFromSeed(student.email),
       location: weightedChoice(index, LOCATIONS),
       workPreference: weightedChoice(index, [
         'remote',
@@ -510,6 +605,8 @@ async function createStudentUsers(passwordHash, universities) {
       },
       defaultResumeUrl: resumeUrl,
       defaultResumeOriginalName: `${student.name.replace(/ /g, '-')}-resume.pdf`,
+      resumeUrl,
+      resumeOriginalName: `${student.name.replace(/ /g, '-')}-resume.pdf`,
       seedKey: `student-profile-${avatarSlug}`,
     });
   }
@@ -548,6 +645,9 @@ async function createJobs(employers, universities) {
     const postedAt = randomRecentDate();
     const expiresAt = new Date(postedAt);
     expiresAt.setDate(expiresAt.getDate() + 30);
+    const workTerm = weightedChoice(index, WORK_TERMS);
+    const durationMonths = weightedChoice(index, DURATION_OPTIONS);
+    const startDate = new Date('2026-05-01');
 
     const job = await Job.create({
       title,
@@ -556,7 +656,11 @@ async function createJobs(employers, universities) {
         employer.company.name,
         workMode,
         skillsRequired,
-        skillsPreferred
+        skillsPreferred,
+        durationMonths,
+        workTerm,
+        startDate,
+        employer.company.about
       ),
       location,
       audienceType,
@@ -566,9 +670,9 @@ async function createJobs(employers, universities) {
       salaryMax,
       salaryCurrency: 'CAD',
       salaryPeriod: 'hourly',
-      workTerm: weightedChoice(index, WORK_TERMS),
-      durationMonths: weightedChoice(index, DURATION_OPTIONS),
-      startDate: new Date('2026-05-01'),
+      workTerm,
+      durationMonths,
+      startDate,
       skillsRequired,
       skillsPreferred,
       gpaRequirement: index % 6 === 0 ? 3.0 : null,
@@ -717,10 +821,66 @@ async function createApplicationsAndSavedJobs(jobs, students) {
       });
     }
   }
+
+  const demoStudent = await User.findOne({ email: 'demo.student@bcit.ca' });
+  const bcitJobs = jobs.filter(
+    (job) =>
+      job.audienceType === 'public' ||
+      job.audienceType === 'all_universities' ||
+      job.selectedUniversities.some(Boolean)
+  );
+  const demoStatuses = ['submitted', 'in_review', 'interview'];
+  const demoProfile = await StudentProfile.findOne({ user: demoStudent._id });
+
+  for (let index = 0; index < demoStatuses.length; index += 1) {
+    const targetJob = bcitJobs[index];
+    const status = demoStatuses[index];
+    const createdAt = faker.date.between({
+      from: targetJob.postedAt,
+      to: new Date(),
+    });
+
+    await Application.findOneAndUpdate(
+      { job: targetJob._id, student: demoStudent._id },
+      {
+        $set: {
+          resumeUrl: demoProfile.defaultResumeUrl,
+          resumeOriginalName: demoProfile.defaultResumeOriginalName,
+          coverLetter:
+            'I would be excited to contribute to this team because the role combines strong mentorship with meaningful scope and a clear opportunity to learn quickly.',
+          status,
+          statusHistory: buildStatusHistory(status, createdAt),
+          viewedByEmployerAt:
+            status === 'submitted'
+              ? null
+              : faker.date.between({ from: createdAt, to: new Date() }),
+          createdAt,
+          updatedAt: new Date(),
+        },
+      },
+      { upsert: true }
+    );
+  }
+
+  const refreshedCounts = await Application.aggregate([
+    { $group: { _id: '$job', count: { $sum: 1 } } },
+  ]);
+
+  for (const entry of refreshedCounts) {
+    await Job.findByIdAndUpdate(entry._id, { applicantCount: entry.count });
+  }
+
+  for (const job of jobs.slice(0, 10)) {
+    await SavedJob.updateOne(
+      { student: demoStudent._id, job: job._id },
+      { $setOnInsert: { savedAt: new Date() } },
+      { upsert: true }
+    );
+  }
 }
 
 async function seedDatabase() {
-  logger.info('Seeding database...');
+  logger.info('[seed] empty, seeding...');
   await clearSeededData();
   const passwordHash = await bcrypt.hash(DEMO_PASSWORD, 10);
   const universities = await createUniversityAdmins(passwordHash);
@@ -729,20 +889,24 @@ async function seedDatabase() {
   const jobs = await createJobs(employers, universities);
   await createApplicationsAndSavedJobs(jobs, students);
 
-  logger.info('Seed complete.', {
+  const counts = {
     universities: await University.countDocuments(),
     companies: await Company.countDocuments(),
     jobs: await Job.countDocuments(),
     students: await User.countDocuments({ role: 'student' }),
     applications: await Application.countDocuments(),
-  });
+  };
 
-  logger.info('Demo credentials', {
-    employer: 'demo.employer@shopify.com / Demo123!',
-    student: 'demo.student@bcit.ca / Demo123!',
-    generalStudent: 'demo.general@gmail.com / Demo123!',
-    universityAdmin: 'admin@bcit.ca / Demo123!',
-  });
+  logger.info(
+    `[seed] done. universities=${counts.universities} companies=${counts.companies} jobs=${counts.jobs} students=${counts.students} applications=${counts.applications}`
+  );
+  logger.info('[seed] DEMO CREDENTIALS:');
+  logger.info('[seed]   employer: demo.employer@shopify.com / Demo123!');
+  logger.info('[seed]   student (BCIT): demo.student@bcit.ca / Demo123!');
+  logger.info('[seed]   student (general): demo.general@gmail.com / Demo123!');
+  logger.info('[seed]   university: admin@bcit.ca / Demo123!');
+
+  return counts;
 }
 
 if (require.main === module) {

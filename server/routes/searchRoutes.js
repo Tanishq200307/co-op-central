@@ -29,6 +29,11 @@ router.get('/suggest', async (req, res) => {
     ]);
 
     res.json({
+      data: {
+        jobs,
+        companies,
+        skills: skills.map((skill) => skill._id),
+      },
       jobs,
       companies,
       skills: skills.map((skill) => skill._id),

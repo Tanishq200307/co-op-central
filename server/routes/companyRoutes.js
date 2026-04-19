@@ -38,6 +38,10 @@ router.get('/', async (req, res) => {
       jobsByCompany.map((entry) => [entry._id.toString(), entry.count])
     );
     res.json({
+      data: companies.map((company) => ({
+        ...company,
+        openRoleCount: counts.get(company._id.toString()) || 0,
+      })),
       companies: companies.map((company) => ({
         ...company,
         openRoleCount: counts.get(company._id.toString()) || 0,
@@ -65,6 +69,7 @@ router.get('/:slug', async (req, res) => {
       .lean();
 
     res.json({
+      data: jobs,
       company,
       jobs,
     });

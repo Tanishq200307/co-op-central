@@ -18,7 +18,13 @@ router.get('/mine', protect, requireRole('student'), async (req, res) => {
       .sort({ createdAt: -1 })
       .lean();
 
-    res.json({ applications });
+    res.json({
+      data: applications,
+      applications,
+      page: 1,
+      pageSize: applications.length,
+      total: applications.length,
+    });
   } catch (error) {
     res
       .status(500)
@@ -57,7 +63,7 @@ router.patch(
         link: '/applications',
       });
 
-      res.json({ application });
+      res.json({ data: application, application });
     } catch (error) {
       res
         .status(500)
@@ -97,7 +103,7 @@ router.post(
         $inc: { applicantCount: -1 },
       });
 
-      res.json({ application });
+      res.json({ data: application, application });
     } catch (error) {
       res
         .status(500)

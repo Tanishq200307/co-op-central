@@ -1,0 +1,177 @@
+$ curl -s http://localhost:5001/api/stats/home | python3 -m json.tool
+{
+    "openJobs": 150,
+    "hiringCompanies": 40,
+    "universityPartners": 8,
+    "students": 60
+}
+
+$ curl -s "http://localhost:5001/api/jobs/search?limit=3" | python3 -m json.tool | head -80
+{
+    "data": [
+        {
+            "_id": "69e4229d3810f46636ffef34",
+            "title": "Sustainability Analyst Intern",
+            "description": "## About the role\nOur team is hiring a Sustainability Analyst Intern for Fall 2026. You will contribute to active roadmap work, collaborate across functions, and build practical experience in a setting that values thoughtful execution.\n\n## What you will do\n- Help improve tooling, dashboards, or internal systems that make the team more effective\n- Contribute to code reviews, documentation, or process improvements that help the team scale\n- Take ownership of a scoped project and deliver it with strong attention to detail\n- Communicate progress clearly in standups, planning sessions, and stakeholder check-ins\n- Use data, feedback, and observation to identify opportunities for product or operational improvements\n- Build, test, and iterate on features or workflows that support customers and internal teams\n\n## What you bring\n- A habit of testing your work, documenting decisions, and learning from feedback\n- Hands-on experience with Go, SQL, Kotlin\n- A strong foundation in problem solving, communication, and collaborative teamwork\n- Coursework, projects, or previous work that demonstrates follow-through and product sense\n- Comfort working through ambiguity and asking clarifying questions early\n\n## Nice to have\n- Curiosity about the domain, customer workflows, and how strong teams make decisions\n- Comfort using modern collaboration tools such as Git, Jira, or cross-functional documentation\n- Exposure to Swift, GHG Accounting, MATLAB\n\n## About Top Hat\nTop Hat builds products and services with a strong focus on execution, mentorship, and practical outcomes. Teams work closely across disciplines and students are treated as real contributors, not observers.\n\nThe company invests in onboarding, clear scope, and fast feedback loops so work terms feel substantial from the first week. Co-op students support roadmap delivery, internal tooling, research, and operational improvements depending on the team.\n\nTop Hat uses CoopCentral to connect with students who want meaningful ownership, strong teammates, and a modern work environment that values communication, initiative, and craft.",
+            "location": "Ottawa, ON",
+            "audienceType": "selected_universities",
+            "employmentType": "internship",
+            "workMode": "onsite",
+            "salaryMin": 22,
+            "salaryMax": 32,
+            "salaryCurrency": "CAD",
+            "salaryPeriod": "hourly",
+            "workTerm": "Fall 2026",
+            "durationMonths": 12,
+            "startDate": "2026-05-01T00:00:00.000Z",
+            "skillsRequired": [
+                "Go",
+                "SQL",
+                "Kotlin",
+                "PyTorch"
+            ],
+            "skillsPreferred": [
+                "Swift",
+                "GHG Accounting",
+                "MATLAB",
+                "Agile",
+                "Python"
+            ],
+            "gpaRequirement": null,
+            "selectedUniversities": [
+                "69e4229c3810f46636ffecc6",
+                "69e4229c3810f46636ffecc1"
+            ],
+            "employer": "69e4229c3810f46636ffed9b",
+            "viewCount": 0,
+            "applicantCount": 6,
+            "isPromoted": true,
+            "isEasyApply": true,
+            "postedAt": "2026-04-18T10:04:18.227Z",
+            "expiresAt": "2026-05-18T10:04:18.227Z",
+            "company": {
+                "_id": "69e4229c3810f46636ffed9d",
+                "name": "Top Hat",
+                "slug": "top-hat",
+                "logoUrl": "/uploads/logos/top-hat.svg",
+                "logoInitials": "TH",
+                "logoColorHex": "#E11D48",
+                "website": "https://www.tophat.com",
+                "industry": "Health Tech",
+                "headcountRange": "51-200 employees",
+                "headquarters": "Ottawa, ON",
+                "about": "Top Hat builds products and services with a strong focus on execution, mentorship, and practical outcomes. Teams work closely across disciplines and students are treated as real contributors, not observers.\n\nThe company invests in onboarding, clear scope, and fast feedback loops so work terms feel substantial from the first week. Co-op students support roadmap delivery, internal tooling, research, and operational improvements depending on the team.\n\nTop Hat uses CoopCentral to connect with students who want meaningful ownership, strong teammates, and a modern work environment that values communication, initiative, and craft.",
+                "foundedYear": 2005,
+                "specialties": [
+                    "GHG Accounting",
+                    "Accounting",
+                    "Google Analytics",
+                    "REST APIs"
+                ],
+                "cultureTags": [
+                    "Product craft",
+                    "Mentorship",
+                    "Career growth",
+                    "Remote-friendly"
+                ],
+                "createdBy": "69e4229c3810f46636ffed9b",
+                "seedKey": "company-top-hat",
+                "createdAt": "2026-04-19T00:32:28.884Z",
+                "updatedAt": "2026-04-19T00:32:28.884Z",
+                "__v": 0
+            }
+        },
+        {
+            "_id": "69e4229d3810f46636ffefc0",
+            "title": "QA Engineer Co-op",
+            "description": "## About the role\nJoin Unbounce as a QA Engineer Co-op and help shape real product and operational outcomes. You will be embedded with experienced teammates, trusted with scoped projects, and supported by strong coaching throughout the term.\n\n## What you will do\n- Build, test, and iterate on features or workflows that support customers and internal teams\n- Help improve tooling, dashboards, or internal systems that make the team more effective\n- Translate product or project requirements into clear deliverables with support from your mentor\n- Take ownership of a scoped project and deliver it with strong attention to detail\n- Collaborate with engineers, designers, analysts, or operators to move work from idea to launch\n- Use data, feedback, and observation to identify opportunities for product or operational improvements\n\n## What you bring\n- Hands-on experience with MongoDB, Agile, SEO\n- Interest in building practical solutions for real users and business needs\n- Comfort working through ambiguity and asking clarifying questions early\n- Coursework, projects, or previous work that demonstrates follow-through and product sense\n- A habit of testing your work, documenting decisions, and learning from feedback\n\n## Nice to have\n- Experience shipping a class project, internship deliverable, or side project from start to finish\n- Exposure to Sustainability Reporting, GHG Accounting, AutoCAD\n- Comfort using modern collaboration tools such as Git, Jira, or cross-functional documentation\n\n## About Unbounce\nUnbounce builds products and services with a strong focus on execution, mentorship, and practical outcomes. Teams work closely across disciplines and students are treated as real contributors, not observers.\n\nThe company invests in onboarding, clear scope, and fast feedback loops so work terms feel substantial from the first week. Co-op students support roadmap delivery, internal tooling, research, and operational improvements depending on the team.\n\nUnbounce uses CoopCentral to connect with students who want meaningful ownership, strong teammates, and a modern work environment that values communication, initiative, and craft.",
+            "location": "Ottawa, ON",
+            "audienceType": "selected_universities",
+
+$ curl -s "http://localhost:5001/api/companies?limit=3" | python3 -m json.tool | head -60
+{
+    "data": [
+        {
+            "_id": "69e4229c3810f46636ffed48",
+            "name": "Absolute Software",
+            "slug": "absolute-software",
+            "logoUrl": "/uploads/logos/absolute-software.svg",
+            "logoInitials": "AS",
+            "logoColorHex": "#1D4ED8",
+            "website": "https://www.absolutesoftware.com",
+            "industry": "Fintech",
+            "headcountRange": "11-50 employees",
+            "headquarters": "Vancouver, BC",
+            "about": "Absolute Software builds products and services with a strong focus on execution, mentorship, and practical outcomes. Teams work closely across disciplines and students are treated as real contributors, not observers.\n\nThe company invests in onboarding, clear scope, and fast feedback loops so work terms feel substantial from the first week. Co-op students support roadmap delivery, internal tooling, research, and operational improvements depending on the team.\n\nAbsolute Software uses CoopCentral to connect with students who want meaningful ownership, strong teammates, and a modern work environment that values communication, initiative, and craft.",
+            "foundedYear": 2006,
+            "specialties": [
+                "Content Strategy",
+                "Confluence",
+                "TensorFlow",
+                "Agile"
+            ],
+            "cultureTags": [
+                "Product craft",
+                "Learning budget",
+                "Customer empathy"
+            ],
+            "createdBy": "69e4229c3810f46636ffed46",
+            "seedKey": "company-absolute-software",
+            "createdAt": "2026-04-19T00:32:28.864Z",
+            "updatedAt": "2026-04-19T00:32:28.864Z",
+            "__v": 0,
+            "openRoleCount": 4
+        },
+        {
+            "_id": "69e4229c3810f46636ffed8e",
+            "name": "Ada",
+            "slug": "ada",
+            "logoUrl": "/uploads/logos/ada.svg",
+            "logoInitials": "A",
+            "logoColorHex": "#2563EB",
+            "website": "https://www.ada.com",
+            "industry": "Enterprise SaaS",
+            "headcountRange": "201-500 employees",
+            "headquarters": "Toronto, ON",
+            "about": "Ada builds products and services with a strong focus on execution, mentorship, and practical outcomes. Teams work closely across disciplines and students are treated as real contributors, not observers.\n\nThe company invests in onboarding, clear scope, and fast feedback loops so work terms feel substantial from the first week. Co-op students support roadmap delivery, internal tooling, research, and operational improvements depending on the team.\n\nAda uses CoopCentral to connect with students who want meaningful ownership, strong teammates, and a modern work environment that values communication, initiative, and craft.",
+            "foundedYear": 2020,
+            "specialties": [
+                "SolidWorks",
+                "AWS",
+                "C++",
+                "Jira"
+            ],
+            "cultureTags": [
+                "Inclusive teams",
+                "Customer empathy",
+                "High trust"
+            ],
+            "createdBy": "69e4229c3810f46636ffed8c",
+            "seedKey": "company-ada",
+            "createdAt": "2026-04-19T00:32:28.880Z",
+
+$ curl -s "http://localhost:5001/api/search/suggest?q=shop" | python3 -m json.tool
+{
+    "data": {
+        "jobs": [],
+        "companies": [
+            {
+                "_id": "69e4229c3810f46636ffece4",
+                "name": "Shopify",
+                "slug": "shopify",
+                "logoUrl": "/uploads/logos/shopify.svg"
+            }
+        ],
+        "skills": []
+    },
+    "jobs": [],
+    "companies": [
+        {
+            "_id": "69e4229c3810f46636ffece4",
+            "name": "Shopify",
+            "slug": "shopify",
+            "logoUrl": "/uploads/logos/shopify.svg"
+        }
+    ],
+    "skills": []
+}

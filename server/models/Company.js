@@ -17,6 +17,14 @@ const companySchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    logoInitials: {
+      type: String,
+      default: '',
+    },
+    logoColorHex: {
+      type: String,
+      default: '',
+    },
     website: {
       type: String,
       default: '',
