@@ -4,6 +4,7 @@ import {
   Building2,
   GraduationCap,
   Search,
+  Users,
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import JobCard from '../components/JobCard';
@@ -14,7 +15,7 @@ import Skeleton from '../components/ui/Skeleton';
 import Tag from '../components/ui/Tag';
 import { getCompanies } from '../services/companiesApi';
 import { getJobSearch } from '../services/jobsApi';
-import { getUniversities } from '../services/universitiesApi';
+import { getHomeStats } from '../services/statsApi';
 
 const popularSearches = [
   'Software Engineer',
@@ -28,24 +29,23 @@ export default function Home() {
   const navigate = useNavigate();
   const jobsQuery = useQuery({
     queryKey: ['home-jobs'],
-    queryFn: () => getJobSearch({ limit: 12, sort: 'date' }),
+    queryFn: () => getJobSearch({ limit: 8, sort: 'relevance' }),
   });
   const companiesQuery = useQuery({
     queryKey: ['home-companies'],
     queryFn: () => getCompanies({ limit: 12 }),
   });
-  const universitiesQuery = useQuery({
-    queryKey: ['home-universities'],
-    queryFn: getUniversities,
+  const statsQuery = useQuery({
+    queryKey: ['home-stats'],
+    queryFn: getHomeStats,
   });
 
-  const featuredJobs = (jobsQuery.data?.jobs || [])
-    .filter((job) => job.isPromoted)
-    .slice(0, 8);
+  const featuredJobs = (jobsQuery.data?.jobs || []).slice(0, 8);
   const stats = {
-    jobs: jobsQuery.data?.total || 0,
-    companies: companiesQuery.data?.total || 0,
-    universities: universitiesQuery.data?.length || 0,
+    jobs: statsQuery.data?.openJobs || 0,
+    companies: statsQuery.data?.hiringCompanies || 0,
+    universities: statsQuery.data?.universityPartners || 0,
+    students: statsQuery.data?.students || 0,
   };
 
   return (
@@ -165,6 +165,33 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        {statsQuery.isLoading
+          ? Array.from({ length: 4 }).map((_, index) => (
+              <Skeleton className="h-32 rounded-md" key={index} />
+            ))
+          : [
+              [BriefcaseBusiness, stats.jobs, 'Open co-ops'],
+              [Building2, stats.companies, 'Hiring companies'],
+              [GraduationCap, stats.universities, 'University partners'],
+              [Users, stats.students, 'Active students'],
+            ].map(([Icon, value, label]) => (
+              <Card key={label}>
+                <CardBody className="flex items-start gap-4">
+                  <div className="rounded-md bg-accent-primary/10 p-3 text-accent-primary">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="text-3xl font-semibold text-text-primary">
+                      {value}
+                    </p>
+                    <p className="mt-1 text-sm text-text-muted">{label}</p>
+                  </div>
+                </CardBody>
+              </Card>
+            ))}
+      </section>
+
       <section className="space-y-5">
         <div className="flex items-center justify-between">
           <h2 className="section-title">Featured Jobs</h2>
@@ -177,9 +204,7 @@ export default function Home() {
             ? Array.from({ length: 4 }).map((_, index) => (
                 <Skeleton key={index} className="h-64 rounded-md" />
               ))
-            : featuredJobs.map((job) => (
-                <JobCard compact job={job} key={job._id} />
-              ))}
+            : featuredJobs.map((job) => <JobCard compact job={job} key={job._id} />)}
         </div>
       </section>
 

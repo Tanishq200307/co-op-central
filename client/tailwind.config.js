@@ -13,14 +13,14 @@ export default {
     extend: {
       colors: {
         bg: {
-          base: 'var(--bg-base)',
-          surface: 'var(--bg-surface)',
-          elevated: 'var(--bg-elevated)',
+          base: 'rgb(var(--bg-base-rgb) / <alpha-value>)',
+          surface: 'rgb(var(--bg-surface-rgb) / <alpha-value>)',
+          elevated: 'rgb(var(--bg-elevated-rgb) / <alpha-value>)',
         },
         text: {
-          primary: 'var(--text-primary)',
-          secondary: 'var(--text-secondary)',
-          muted: 'var(--text-muted)',
+          primary: 'rgb(var(--text-primary-rgb) / <alpha-value>)',
+          secondary: 'rgb(var(--text-secondary-rgb) / <alpha-value>)',
+          muted: 'rgb(var(--text-muted-rgb) / <alpha-value>)',
         },
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -29,16 +29,16 @@ export default {
         accent: {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
-          primary: 'var(--accent-primary)',
-          'primary-hover': 'var(--accent-primary-hover)',
-          success: 'var(--accent-success)',
-          warning: 'var(--accent-warning)',
-          danger: 'var(--accent-danger)',
+          primary: 'rgb(var(--accent-primary-rgb) / <alpha-value>)',
+          'primary-hover': 'rgb(var(--accent-primary-hover-rgb) / <alpha-value>)',
+          success: 'rgb(var(--accent-success-rgb) / <alpha-value>)',
+          warning: 'rgb(var(--accent-warning-rgb) / <alpha-value>)',
+          danger: 'rgb(var(--accent-danger-rgb) / <alpha-value>)',
         },
         border: {
           DEFAULT: 'hsl(var(--border))',
-          subtle: 'var(--border-subtle)',
-          strong: 'var(--border-strong)',
+          subtle: 'rgb(var(--border-subtle-rgb) / <alpha-value>)',
+          strong: 'rgb(var(--border-strong-rgb) / <alpha-value>)',
         },
         primary: {
           DEFAULT: 'hsl(var(--primary))',

@@ -29,18 +29,31 @@
     --ring: 217 91% 60%;
     --radius: 0.5rem;
     --bg-base: #ffffff;
+    --bg-base-rgb: 255 255 255;
     --bg-surface: #f8fafc;
+    --bg-surface-rgb: 248 250 252;
     --bg-elevated: #f1f5f9;
+    --bg-elevated-rgb: 241 245 249;
     --border-subtle: #e2e8f0;
+    --border-subtle-rgb: 226 232 240;
     --border-strong: #cbd5e1;
+    --border-strong-rgb: 203 213 225;
     --text-primary: #0f172a;
+    --text-primary-rgb: 15 23 42;
     --text-secondary: #334155;
+    --text-secondary-rgb: 51 65 85;
     --text-muted: #64748b;
+    --text-muted-rgb: 100 116 139;
     --accent-primary: #2563eb;
+    --accent-primary-rgb: 37 99 235;
     --accent-primary-hover: #3b82f6;
+    --accent-primary-hover-rgb: 59 130 246;
     --accent-success: #16a34a;
+    --accent-success-rgb: 22 163 74;
     --accent-warning: #d97706;
+    --accent-warning-rgb: 217 119 6;
     --accent-danger: #dc2626;
+    --accent-danger-rgb: 220 38 38;
     --surface-gradient: linear-gradient(
       180deg,
       rgba(255, 255, 255, 0.98) 0%,
@@ -77,18 +90,31 @@
     --input: 217 33% 20%;
     --ring: 217 91% 60%;
     --bg-base: #0b1220;
+    --bg-base-rgb: 11 18 32;
     --bg-surface: #111a2e;
+    --bg-surface-rgb: 17 26 46;
     --bg-elevated: #17223b;
+    --bg-elevated-rgb: 23 34 59;
     --border-subtle: #1f2a44;
+    --border-subtle-rgb: 31 42 68;
     --border-strong: #2a3656;
+    --border-strong-rgb: 42 54 86;
     --text-primary: #f1f5f9;
+    --text-primary-rgb: 241 245 249;
     --text-secondary: #cbd5e1;
+    --text-secondary-rgb: 203 213 225;
     --text-muted: #94a3b8;
+    --text-muted-rgb: 148 163 184;
     --accent-primary: #3b82f6;
+    --accent-primary-rgb: 59 130 246;
     --accent-primary-hover: #60a5fa;
+    --accent-primary-hover-rgb: 96 165 250;
     --accent-success: #22c55e;
+    --accent-success-rgb: 34 197 94;
     --accent-warning: #f59e0b;
+    --accent-warning-rgb: 245 158 11;
     --accent-danger: #ef4444;
+    --accent-danger-rgb: 239 68 68;
     --surface-gradient: linear-gradient(
       180deg,
       rgba(23, 34, 59, 0.9) 0%,
