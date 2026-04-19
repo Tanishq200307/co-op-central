@@ -10,7 +10,7 @@ import {
 } from 'recharts';
 import { useMemo, useState } from 'react';
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import Tabs from '../components/ui/Tabs';
 import Button from '../components/ui/Button';
@@ -32,18 +32,35 @@ const tabOptions = [
 export default function EmployerDashboard() {
   const queryClient = useQueryClient();
   const { profileMeta } = useAuth();
-  const [tab, setTab] = useState('jobs');
+  const [searchParams, setSearchParams] = useSearchParams();
   const query = useQuery({
     queryKey: ['employer-dashboard'],
     queryFn: getEmployerJobsWithApplicants,
   });
   const [companyForm, setCompanyForm] = useState(profileMeta?.company || null);
 
+  const requestedTab = searchParams.get('tab') || 'jobs';
+  const tab = tabOptions.some((option) => option.value === requestedTab)
+    ? requestedTab
+    : 'jobs';
+
   useEffect(() => {
     if (profileMeta?.company) {
       setCompanyForm(profileMeta.company);
     }
   }, [profileMeta?.company]);
+
+  function handleTabChange(nextTab) {
+    const nextParams = new URLSearchParams(searchParams);
+
+    if (nextTab === 'jobs') {
+      nextParams.delete('tab');
+    } else {
+      nextParams.set('tab', nextTab);
+    }
+
+    setSearchParams(nextParams, { replace: true });
+  }
 
   const statusMutation = useMutation({
     mutationFn: ({ applicationId, status }) =>
@@ -109,7 +126,7 @@ export default function EmployerDashboard() {
         ))}
       </div>
 
-      <Tabs onChange={setTab} tabs={tabOptions} value={tab} />
+      <Tabs onChange={handleTabChange} tabs={tabOptions} value={tab} />
 
       {tab === 'jobs' ? (
         <div className="space-y-4">

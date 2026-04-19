@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import JobCard from '../components/JobCard';
 import { Card, CardBody, CardHeader } from '../components/ui/Card';
 import Skeleton from '../components/ui/Skeleton';
@@ -7,11 +7,35 @@ import Tabs from '../components/ui/Tabs';
 import { getUniversityDashboard } from '../services/universitiesApi';
 
 export default function UniversityDashboard() {
-  const [tab, setTab] = useState('overview');
+  const [searchParams, setSearchParams] = useSearchParams();
   const query = useQuery({
     queryKey: ['university-dashboard'],
     queryFn: getUniversityDashboard,
   });
+
+  const tabOptions = [
+    { label: 'Overview', value: 'overview' },
+    { label: 'Jobs targeting us', value: 'jobs' },
+    { label: 'Students', value: 'students' },
+    { label: 'Settings', value: 'settings' },
+  ];
+
+  const requestedTab = searchParams.get('tab') || 'overview';
+  const tab = tabOptions.some((option) => option.value === requestedTab)
+    ? requestedTab
+    : 'overview';
+
+  function handleTabChange(nextTab) {
+    const nextParams = new URLSearchParams(searchParams);
+
+    if (nextTab === 'overview') {
+      nextParams.delete('tab');
+    } else {
+      nextParams.set('tab', nextTab);
+    }
+
+    setSearchParams(nextParams, { replace: true });
+  }
 
   if (query.isLoading) {
     return <Skeleton className="h-[720px] rounded-md" />;
@@ -42,16 +66,7 @@ export default function UniversityDashboard() {
         </CardBody>
       </Card>
 
-      <Tabs
-        onChange={setTab}
-        tabs={[
-          { label: 'Overview', value: 'overview' },
-          { label: 'Jobs targeting us', value: 'jobs' },
-          { label: 'Students', value: 'students' },
-          { label: 'Settings', value: 'settings' },
-        ]}
-        value={tab}
-      />
+      <Tabs onChange={handleTabChange} tabs={tabOptions} value={tab} />
 
       {tab === 'overview' ? (
         <div className="grid gap-4 md:grid-cols-3">
