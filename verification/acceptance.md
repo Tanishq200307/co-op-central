@@ -9,11 +9,12 @@
 ## Backend data
 
 - `GET /api/stats/home` returned:
-  - `openJobs: 150`
+  - `openJobs: 151`
   - `hiringCompanies: 40`
   - `universityPartners: 8`
   - `students: 60`
 - Seeded applications: `1096`
+- Note: the count moved from the seeded baseline of `150` to `151` after publishing a new employer job during verification.
 
 ## Browser checks
 
