@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ApplyDialog from '../components/ApplyDialog';
 import JobCard from '../components/JobCard';
+import Avatar from '../components/ui/Avatar';
 import Badge from '../components/ui/Badge';
 import Button from '../components/ui/Button';
 import { Card, CardBody, CardHeader } from '../components/ui/Card';
@@ -12,7 +13,7 @@ import Skeleton from '../components/ui/Skeleton';
 import Tag from '../components/ui/Tag';
 import useLocalStorageState from '../hooks/useLocalStorageState';
 import { useAuth } from '../context/AuthContext';
-import { formatCurrencyRange } from '../lib/utils';
+import { firstInitialFromName, formatCurrencyRange } from '../lib/utils';
 import { getJobDetail } from '../services/jobsApi';
 
 export default function JobDetailPage() {
@@ -89,10 +90,9 @@ export default function JobDetailPage() {
           <CardBody className="space-y-5">
             <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div className="flex gap-4">
-                <img
-                  alt={job.company?.name}
-                  className="h-16 w-16 rounded-md border border-border-subtle bg-bg-elevated object-cover"
-                  src={job.company?.logoUrl}
+                <Avatar
+                  className="h-16 w-16 shrink-0 rounded-md after:rounded-md"
+                  name={firstInitialFromName(job.company?.name, 'C')}
                 />
                 <div>
                   <h1 className="text-3xl font-semibold text-text-primary">
@@ -172,10 +172,9 @@ export default function JobDetailPage() {
               </CardHeader>
               <CardBody className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <img
-                    alt={job.company?.name}
-                    className="h-14 w-14 rounded-md border border-border-subtle bg-bg-elevated object-cover"
-                    src={job.company?.logoUrl}
+                  <Avatar
+                    className="h-14 w-14 shrink-0 rounded-md after:rounded-md"
+                    name={firstInitialFromName(job.company?.name, 'C')}
                   />
                   <div>
                     <p className="font-semibold text-text-primary">

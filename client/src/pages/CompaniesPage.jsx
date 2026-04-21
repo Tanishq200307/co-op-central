@@ -1,9 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link, useSearchParams } from 'react-router-dom';
+import Avatar from '../components/ui/Avatar';
 import { Card, CardBody } from '../components/ui/Card';
 import { Input, Select } from '../components/ui/Field';
 import Pagination from '../components/ui/Pagination';
 import Skeleton from '../components/ui/Skeleton';
+import { firstInitialFromName } from '../lib/utils';
 import { getCompanies } from '../services/companiesApi';
 
 export default function CompaniesPage() {
@@ -82,10 +84,9 @@ export default function CompaniesPage() {
                 <Card className="h-full transition hover:border-accent-primary/50">
                   <CardBody className="space-y-4">
                     <div className="flex items-center gap-3">
-                      <img
-                        alt={company.name}
-                        className="h-14 w-14 rounded-md border border-border-subtle bg-bg-elevated object-cover"
-                        src={company.logoUrl}
+                      <Avatar
+                        className="h-14 w-14 shrink-0 rounded-md after:rounded-md"
+                        name={firstInitialFromName(company.name, 'C')}
                       />
                       <div>
                         <h2 className="font-semibold text-text-primary">

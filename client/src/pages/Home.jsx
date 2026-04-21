@@ -8,11 +8,13 @@ import {
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import JobCard from '../components/JobCard';
+import Avatar from '../components/ui/Avatar';
 import Badge from '../components/ui/Badge';
 import Button from '../components/ui/Button';
 import { Card, CardBody } from '../components/ui/Card';
 import Skeleton from '../components/ui/Skeleton';
 import Tag from '../components/ui/Tag';
+import { firstInitialFromName } from '../lib/utils';
 import { getCompanies } from '../services/companiesApi';
 import { getJobSearch } from '../services/jobsApi';
 import { getHomeStats } from '../services/statsApi';
@@ -53,7 +55,7 @@ export default function Home() {
       <section className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
         <div className="space-y-6">
           <Badge>
-            LinkedIn-style co-op discovery, rebuilt for Canadian campuses
+            Co-op discovery, built for Canadian campuses
           </Badge>
           <div className="space-y-4">
             <h1 className="max-w-3xl text-4xl font-bold tracking-tight text-text-primary md:text-5xl">
@@ -222,10 +224,9 @@ export default function Home() {
                     <Card className="h-full transition hover:border-accent-primary/40">
                       <CardBody className="space-y-4">
                         <div className="flex items-center gap-3">
-                          <img
-                            alt={company.name}
-                            className="h-12 w-12 rounded-md border border-border-subtle bg-bg-elevated object-cover"
-                            src={company.logoUrl}
+                          <Avatar
+                            className="h-12 w-12 shrink-0 rounded-md after:rounded-md"
+                            name={firstInitialFromName(company.name, 'C')}
                           />
                           <div>
                             <p className="font-semibold text-text-primary">

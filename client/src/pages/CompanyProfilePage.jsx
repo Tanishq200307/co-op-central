@@ -3,10 +3,12 @@ import { Globe, MapPin } from 'lucide-react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import JobCard from '../components/JobCard';
+import Avatar from '../components/ui/Avatar';
 import { Card, CardBody } from '../components/ui/Card';
 import Skeleton from '../components/ui/Skeleton';
 import Tabs from '../components/ui/Tabs';
 import Tag from '../components/ui/Tag';
+import { firstInitialFromName } from '../lib/utils';
 import { getCompanyBySlug } from '../services/companiesApi';
 
 export default function CompanyProfilePage() {
@@ -30,10 +32,9 @@ export default function CompanyProfilePage() {
         <CardBody className="space-y-5">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-4">
-              <img
-                alt={company.name}
-                className="h-20 w-20 rounded-2xl border border-border-subtle bg-bg-elevated object-cover"
-                src={company.logoUrl}
+              <Avatar
+                className="h-20 w-20 shrink-0 rounded-2xl after:rounded-2xl"
+                name={firstInitialFromName(company.name, 'C')}
               />
               <div>
                 <h1 className="text-3xl font-semibold text-text-primary">

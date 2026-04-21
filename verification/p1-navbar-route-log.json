@@ -1,0 +1,52 @@
+[
+  {
+    "route": "/jobs",
+    "items": [
+      "C\nCoopCentral",
+      "Dashboard",
+      "Post a job",
+      "Applicants",
+      "SC\nShopify Campus Hiring"
+    ]
+  },
+  {
+    "route": "/companies",
+    "items": [
+      "C\nCoopCentral",
+      "Dashboard",
+      "Post a job",
+      "Applicants",
+      "SC\nShopify Campus Hiring"
+    ]
+  },
+  {
+    "route": "/jobs/69e4229d3810f46636ffefc0",
+    "items": [
+      "C\nCoopCentral",
+      "Dashboard",
+      "Post a job",
+      "Applicants",
+      "SC\nShopify Campus Hiring"
+    ]
+  },
+  {
+    "route": "/employer",
+    "items": [
+      "C\nCoopCentral",
+      "Dashboard",
+      "Post a job",
+      "Applicants",
+      "SC\nShopify Campus Hiring"
+    ]
+  },
+  {
+    "route": "/",
+    "items": [
+      "C\nCoopCentral",
+      "Dashboard",
+      "Post a job",
+      "Applicants",
+      "SC\nShopify Campus Hiring"
+    ]
+  }
+]

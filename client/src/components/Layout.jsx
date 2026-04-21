@@ -12,7 +12,7 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useDebouncedValue from '../hooks/useDebouncedValue';
-import { cn } from '../lib/utils';
+import { cn, firstInitialFromName } from '../lib/utils';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import {
@@ -468,11 +468,7 @@ export default function Layout({ children }) {
                       type="button"
                     >
                       <Avatar
-                        name={avatarName}
-                        src={
-                          activeProfileMeta?.studentProfile?.avatarUrl ||
-                          activeProfileMeta?.company?.logoUrl
-                        }
+                        name={firstInitialFromName(avatarName, 'A')}
                       />
                       <span className="max-w-28 truncate text-sm font-medium text-text-primary">
                         {avatarName}

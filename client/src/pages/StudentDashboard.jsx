@@ -1,12 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import JobCard from '../components/JobCard';
+import Avatar from '../components/ui/Avatar';
 import Button from '../components/ui/Button';
 import { Card, CardBody } from '../components/ui/Card';
 import Skeleton from '../components/ui/Skeleton';
 import Tag from '../components/ui/Tag';
 import useLocalStorageState from '../hooks/useLocalStorageState';
 import { useAuth } from '../context/AuthContext';
+import { firstInitialFromName } from '../lib/utils';
 import { getMyApplications } from '../services/applicationsApi';
 import { getRecommendedJobs } from '../services/jobsApi';
 
@@ -57,10 +59,9 @@ export default function StudentDashboard() {
         <Card>
           <CardBody className="space-y-4">
             <div className="flex items-center gap-3">
-              <img
-                alt={user.name}
-                className="h-16 w-16 rounded-full border border-border-subtle bg-bg-elevated object-cover"
-                src={profile?.avatarUrl}
+              <Avatar
+                className="h-16 w-16 shrink-0"
+                name={firstInitialFromName(user.name, 'S')}
               />
               <div>
                 <p className="font-semibold text-text-primary">{user.name}</p>

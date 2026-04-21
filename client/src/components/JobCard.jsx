@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useAuth } from '../context/AuthContext';
 import { saveJob, unsaveJob } from '../services/jobsApi';
-import { cn, formatCurrencyRange } from '../lib/utils';
+import { cn, firstInitialFromName, formatCurrencyRange } from '../lib/utils';
 import Avatar from './ui/Avatar';
 import Badge from './ui/Badge';
 import { Card, CardBody } from './ui/Card';
@@ -44,9 +44,8 @@ export default function JobCard({ job, compact = false, className }) {
       <CardBody className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex min-w-0 gap-4">
           <Avatar
-            className="h-14 w-14 shrink-0 rounded-md"
-            name={job.company?.name || 'Company'}
-            src={job.company?.logoUrl}
+            className="h-14 w-14 shrink-0 rounded-md after:rounded-md"
+            name={firstInitialFromName(job.company?.name || 'Company', 'C')}
           />
 
           <div className="min-w-0 space-y-2">

@@ -14,6 +14,10 @@ export function initialsFromName(name = '') {
     .join('');
 }
 
+export function firstInitialFromName(name = '', fallback = '?') {
+  return name.trim().charAt(0).toUpperCase() || fallback;
+}
+
 export function formatCurrencyRange({
   min,
   max,
